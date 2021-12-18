@@ -16,6 +16,6 @@
     "mongoose": "^6.0.12"
   },
   "scripts": {
-    "start": "nodemon server"
+    "start": "node server.js"
   }
 }
