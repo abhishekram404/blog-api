@@ -13,6 +13,7 @@ app.use(
   cors({
     origin: "https://blog-eight-roan-16.vercel.app",
     credentials: true,
+    maxAge: "17280000",
   })
 );
 app.use(cookieParser());
