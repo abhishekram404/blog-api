@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 dotenv.config();
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://blog-eight-roan-16.vercel.app",
     credentials: true,
   })
 );
