@@ -19,6 +19,8 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Origin",
     "https://blog-git-development-abhishekram404.vercel.app"
   );
+  res.header("Access-Control-Allow-Credentials", true);
+
   next();
 });
 
