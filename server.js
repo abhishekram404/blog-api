@@ -21,9 +21,10 @@ app.use(
   })
 );
 app.use((req, res, next) => {
-  if (allowedOrigins.includes(req.headers.origin)) {
-    res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
-  }
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://blog-6dkd0r3wd-abhishekram404.vercel.app/"
+  );
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader(
     "Access-Control-Allow-Methods",
