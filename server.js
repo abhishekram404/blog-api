@@ -19,6 +19,22 @@ app.use(
     maxAge: "17280000",
   })
 );
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", [
+    "https://blog-eight-roan-16.vercel.app/",
+    "https://blog-6dkd0r3wd-abhishekram404.vercel.app/",
+  ]);
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+  next();
+});
 app.use(cookieParser());
 app.use(
   bodyParser.json({
