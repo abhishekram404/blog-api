@@ -17,14 +17,14 @@ dotenv.config();
 app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Origin",
-    "https://blog-6dkd0r3wd-abhishekram404.vercel.app/"
+    "https://blog-git-development-abhishekram404.vercel.app/"
   );
   next();
 });
 
 app.use(
   cors({
-    origin: "https://blog-6dkd0r3wd-abhishekram404.vercel.app/",
+    origin: "https://blog-git-development-abhishekram404.vercel.app/",
     credentials: true,
     maxAge: "17280000",
   })
