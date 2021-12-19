@@ -13,19 +13,20 @@ const allowedOrigins = [
   "https://blog-eight-roan-16.vercel.app/",
   "https://blog-6dkd0r3wd-abhishekram404.vercel.app/",
 ];
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-    maxAge: "17280000",
-  })
-);
-app.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Origin",
-    // ""
-    "https://blog-6dkd0r3wd-abhishekram404.vercel.app/"
-  );
+// app.use(
+//   cors({
+//     origin: allowedOrigins,
+//     credentials: true,
+//     maxAge: "17280000",
+//   })
+// );
+app.options("*", cors());
+// app.use((req, res, next) => {
+//   res.header(
+//     "Access-Control-Allow-Origin",
+//     // ""
+//     "https://blog-6dkd0r3wd-abhishekram404.vercel.app/"
+//   );
   // res.setHeader("Access-Control-Allow-Credentials", true);
   // res.setHeader(
   //   "Access-Control-Allow-Methods",
