@@ -11,7 +11,10 @@ const cookieParser = require("cookie-parser");
 dotenv.config();
 app.use(
   cors({
-    origin: "https://blog-beta-blue.vercel.app",
+    origin: [
+      "https://blog-eight-roan-16.vercel.app/",
+      "https://blog-6dkd0r3wd-abhishekram404.vercel.app/",
+    ],
     credentials: true,
     maxAge: "17280000",
   })
