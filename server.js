@@ -9,21 +9,21 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 
 dotenv.config();
+const allowedOrigins = [
+  "https://blog-eight-roan-16.vercel.app/",
+  "https://blog-6dkd0r3wd-abhishekram404.vercel.app/",
+];
 app.use(
   cors({
-    origin: [
-      "https://blog-eight-roan-16.vercel.app/",
-      "https://blog-6dkd0r3wd-abhishekram404.vercel.app/",
-    ],
+    origin: allowedOrigins,
     credentials: true,
     maxAge: "17280000",
   })
 );
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", [
-    "https://blog-eight-roan-16.vercel.app/",
-    "https://blog-6dkd0r3wd-abhishekram404.vercel.app/",
-  ]);
+  if (allowedOrigins.includes(req.headers.origin)) {
+    res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+  }
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader(
     "Access-Control-Allow-Methods",
