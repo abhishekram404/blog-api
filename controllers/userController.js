@@ -97,16 +97,16 @@ module.exports.login = async (req, res) => {
     res.cookie("jwt", token, {
       httpOnly: true,
       maxAge: 900000000,
-      secure: false,
-      sameSite: false,
-      domain: "https://blog-git-development-abhishekram404.vercel.app/",
+      secure: process.env.NODE_ENV === "production" ? true : false,
+      sameSite: None,
+      // domain: "https://blog-git-development-abhishekram404.vercel.app/",
     });
     res.cookie("isUserLoggedIn", 1, {
       httpOnly: false,
       maxAge: 900000000,
-      secure: false,
-      sameSite: false,
-      domain: "https://blog-git-development-abhishekram404.vercel.app/",
+      secure: process.env.NODE_ENV === "production" ? true : false,
+      sameSite: None,
+      // domain: "https://blog-git-development-abhishekram404.vercel.app/",
     });
     return res
       .status(200)
