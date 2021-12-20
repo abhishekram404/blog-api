@@ -99,14 +99,14 @@ module.exports.login = async (req, res) => {
       maxAge: 900000000,
       secure: process.env.NODE_ENV === "production" ? true : false,
       sameSite: "None",
-      domain: "https://blog-git-development-abhishekram404.vercel.app/",
+      domain: "https://blog-git-development-abhishekram404.vercel.app",
     });
     res.cookie("isUserLoggedIn", 1, {
       httpOnly: false,
       maxAge: 900000000,
       secure: process.env.NODE_ENV === "production" ? true : false,
       sameSite: "None",
-      domain: "https://blog-git-development-abhishekram404.vercel.app/",
+      domain: "https://blog-git-development-abhishekram404.vercel.app",
     });
     return res
       .status(200)
