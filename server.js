@@ -27,7 +27,8 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: "https://blog-git-development-abhishekram404.vercel.app",
+    // origin: "https://blog-git-development-abhishekram404.vercel.app",
+    origin: "https://blog-git-main-abhishekram404.vercel.app",
     credentials: true,
     maxAge: "17280000",
   })
