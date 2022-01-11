@@ -14,11 +14,15 @@ dotenv.config();
 //   "https://blog-6dkd0r3wd-abhishekram404.vercel.app/",
 // ];
 
+const isProduction = process.env.NODE_ENV === "production";
+
 app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Origin",
     // "https://blog-git-development-abhishekram404.vercel.app"
-    "https://blog-git-main-abhishekram404.vercel.app"
+    isProduction
+      ? "https://blog-git-main-abhishekram404.vercel.app"
+      : "http://localhost:3000"
   );
   res.header("Access-Control-Allow-Credentials", true);
 
@@ -28,7 +32,9 @@ app.use((req, res, next) => {
 app.use(
   cors({
     // origin: "https://blog-git-development-abhishekram404.vercel.app",
-    origin: "https://blog-git-main-abhishekram404.vercel.app",
+    origin: isProduction
+      ? "https://blog-git-main-abhishekram404.vercel.app"
+      : "http://localhost:3000",
     credentials: true,
     maxAge: "17280000",
   })
@@ -44,7 +50,7 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect(
-  process.env.NODE_ENV === "production"
+  isProduction
     ? `mongodb+srv://blogadmin:${process.env.MONGO_PASS}@blog.vxoiw.mongodb.net/blog?retryWrites=true&w=majority`
     : process.env.MONGO_URI || "mongodb://localhost:27017/blog",
   (err) => {
