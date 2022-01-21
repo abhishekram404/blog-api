@@ -2,6 +2,8 @@ const User = require("../models/User");
 const registerValidator = require("../middlewares/registerValidator");
 const bcrypt = require("bcrypt");
 
+const isProduction = process.env.NODE_ENV === "production";
+
 module.exports.register = async (req, res) => {
   try {
     const { error, value } = await registerValidator(req.body);
@@ -94,19 +96,35 @@ module.exports.login = async (req, res) => {
       });
     }
     const token = await foundUser.generateToken(foundUser._id);
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      maxAge: 900000000,
-      secure: process.env.NODE_ENV === "production" ? true : false,
-      sameSite: "None",
-      domain: "blog-git-main-abhishekram404.vercel.app",
-    });
+    const maxAge = 900000000;
+    // res.cookie("jwt", token, {
+    //   httpOnly: true,
+    //   maxAge,
+    //   secure: process.env.NODE_ENV === "production" ? true : false,
+    //   sameSite: "None",
+    //   domain: isProduction
+    //     ? "blog-git-main-abhishekram404.vercel.app"
+    //     : "localhost:3000",
+    // });
+    console.log(isProduction);
+    res.header("authorization", `Bearer ${token}`);
+    res.header("maxAge", maxAge);
+    res.header(
+      "domain",
+      isProduction
+        ? "blog-git-main-abhishekram404.vercel.app"
+        : "localhost:3000"
+    );
+    res.header("secure", process.env.NODE_ENV === "production" ? 1 : 0);
+
     res.cookie("isUserLoggedIn", 1, {
       httpOnly: false,
-      maxAge: 900000000,
+      maxAge,
       secure: process.env.NODE_ENV === "production" ? true : false,
       sameSite: "None",
-      domain: "blog-git-main-abhishekram404.vercel.app",
+      domain: isProduction
+        ? "blog-git-main-abhishekram404.vercel.app"
+        : "localhost:3000",
     });
     return res
       .status(200)

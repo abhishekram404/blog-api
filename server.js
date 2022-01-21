@@ -37,6 +37,7 @@ app.use(
       : "http://localhost:3000",
     credentials: true,
     maxAge: "17280000",
+    exposedHeaders: ["authorization", "maxAge", "domain", "secure"],
   })
 );
 
