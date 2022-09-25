@@ -1,17 +1,19 @@
 const jwt = require("jsonwebtoken");
 const auth = async (req, res, next) => {
   try {
-    const { jwt: token } = await req.cookies;
+    console.log("headers", req.headers);
+    const token = await req.header("Authorization").split(" ")[1];
+    console.log("token", token);
     if (!token) {
-      return res.send({
+      return res.status(401).send({
         success: false,
         message: "Unauthorized request! Please login again.",
       });
     }
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
-
+    console.log("decoded", decoded);
     if (!decoded.hasOwnProperty("_id")) {
-      return res.send({
+      return res.status(401).send({
         success: false,
         message: "Unauthorized request! Please login again.",
       });
@@ -19,7 +21,7 @@ const auth = async (req, res, next) => {
     req.authUserId = decoded._id;
     next();
   } catch (error) {
-    return res.send({
+    return res.status(401).send({
       success: false,
       message: "Authentication failed ! Please login again.",
     });

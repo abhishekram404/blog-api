@@ -85,25 +85,6 @@ module.exports.login = async (req, res) => {
       });
     }
     const token = await foundUser.generateToken(foundUser._id);
-    const domain = new URL(process.env.CLIENT_URI).hostname;
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      maxAge: 900000000,
-      domain,
-      secure: true,
-    });
-    res.cookie("userId", foundUser._id.toString(), {
-      httpOnly: false,
-      maxAge: 900000000,
-      domain,
-      secure: true,
-    });
-    res.cookie("isUserLoggedIn", 1, {
-      httpOnly: false,
-      maxAge: 900000000,
-      domain,
-      secure: true,
-    });
     return res.status(200).send({
       success: true,
       message: "Login successful.",
@@ -120,30 +101,12 @@ module.exports.login = async (req, res) => {
 
 module.exports.logout = async (req, res) => {
   try {
-    res.clearCookie("isUserLoggedIn", {
-      httpOnly: false,
-    });
-    res.clearCookie("jwt", {
-      httpOnly: true,
-    });
-    res.clearCookie("userId", {
-      httpOnly: false,
-    });
     return res.status(200).send({
       success: true,
       message: "Logged out successfully",
       details: null,
     });
   } catch (error) {
-    res.clearCookie("isUserLoggedIn", {
-      httpOnly: false,
-    });
-    res.clearCookie("userId", {
-      httpOnly: false,
-    });
-    res.clearCookie("jwt", {
-      httpOnly: true,
-    });
     return res.status(500).send({
       success: false,
       message: "Logged out successfully",
@@ -191,7 +154,7 @@ module.exports.fetchUserInfo = async (req, res) => {
     const { authUserId } = await req;
 
     if (!authUserId) {
-      return res.send({
+      return res.status(401).send({
         success: false,
         message: "Unauthorized request!",
       });
@@ -199,7 +162,7 @@ module.exports.fetchUserInfo = async (req, res) => {
     const u = await User.findById(authUserId)
       .select("name email username bio dob address")
       .lean();
-    return res.send({
+    return res.status(200).send({
       success: true,
       message: "Fetch user info successful.",
       details: u,

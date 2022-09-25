@@ -73,13 +73,13 @@ module.exports.fetchHomepagePosts = async (req, res) => {
       // .skip(Number(skip))
       // .limit(3)
       .lean();
-    return res.send({
+    return res.status(200).send({
       success: true,
       message: "Posts fetched successfully",
       details: posts,
     });
   } catch (error) {
-    return res.send({
+    return res.status(500).send({
       success: false,
       message: "Something went wrong while fetching posts.",
       details: null,
@@ -100,13 +100,13 @@ module.exports.fetchProfilePosts = async (req, res) => {
       .sort({ $natural: -1 })
       .lean();
 
-    return res.send({
+    return res.status(200).send({
       success: true,
       message: "Posts fetched successfully",
       details: posts,
     });
   } catch (error) {
-    return res.send({
+    return res.status(500).send({
       success: false,
       message: "Something went wrong while fetching posts.",
       details: null,
@@ -122,7 +122,7 @@ module.exports.fetchAPost = async (req, res) => {
     );
 
     if (!foundPost) {
-      return res.send({
+      return res.status(404).send({
         success: false,
         message: "The post that you requested for doesn't exist.",
         details: null,
@@ -137,7 +137,7 @@ module.exports.fetchAPost = async (req, res) => {
       })
       .status(200);
   } catch (error) {
-    return res.send({
+    return res.status(500).send({
       success: false,
       message: "Something went wrong while fetching the post.",
       details: null,
