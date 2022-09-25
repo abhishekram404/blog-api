@@ -1,0 +1,11 @@
+const router = require("express").Router();
+const postController = require("../controllers/postController");
+const auth = require("../middlewares/auth");
+router.post("/create-post", auth, postController.createPost);
+router.delete("/delete", auth, postController.deletePost);
+router.get("/fetchHomepagePosts", postController.fetchHomepagePosts);
+router.get("/fetchProfilePosts", postController.fetchProfilePosts);
+router.get("/fetch", postController.fetchAPost);
+router.get("/fetchDrafts", auth, postController.fetchDrafts);
+router.put("/publishDraft", auth, postController.publishDraft);
+module.exports = router;
