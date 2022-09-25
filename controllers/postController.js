@@ -87,6 +87,33 @@ module.exports.fetchHomepagePosts = async (req, res) => {
   }
 };
 
+module.exports.fetchOwnPosts = async (req, res) => {
+  try {
+    const id = await req.authUserId;
+    const posts = await Post.find(
+      {
+        published: true,
+        "author.authorId": new ObjectId(id),
+      },
+      "title tags category author createdAt"
+    )
+      .sort({ $natural: -1 })
+      .lean();
+
+    return res.status(200).send({
+      success: true,
+      message: "Posts fetched successfully",
+      details: posts,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      success: false,
+      message: "Something went wrong while fetching posts.",
+      details: null,
+    });
+  }
+};
+
 module.exports.fetchProfilePosts = async (req, res) => {
   try {
     const { skip, profile } = await req.query;
