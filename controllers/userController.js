@@ -61,7 +61,6 @@ module.exports.register = async (req, res) => {
 
 module.exports.login = async (req, res) => {
   try {
-    const isProduction = process.env.NODE_ENV === "production";
     const { email, password } = await req.body;
 
     const foundUser = await User.findOne({ email: email.trim() }).select(
@@ -89,35 +88,20 @@ module.exports.login = async (req, res) => {
     res.cookie("jwt", token, {
       httpOnly: true,
       maxAge: 900000000,
-      secure: isProduction ? true : false,
-      ...(isProduction && {
-        domain: "abhishekram404-blog-simple.herokuapp.com",
-        sameSite: "None",
-      }),
     });
     res.cookie("userId", foundUser._id.toString(), {
       httpOnly: false,
       maxAge: 900000000,
-      secure: isProduction ? true : false,
-
-      ...(isProduction && {
-        domain: "abhishekram404-blog-simple.herokuapp.com",
-        sameSite: "None",
-      }),
     });
     res.cookie("isUserLoggedIn", 1, {
       httpOnly: false,
       maxAge: 900000000,
-      secure: isProduction ? true : false,
-
-      ...(isProduction && {
-        domain: "abhishekram404-blog-simple.herokuapp.com",
-        sameSite: "None",
-      }),
     });
-    return res
-      .status(200)
-      .send({ success: true, message: "Login successful.", details: null });
+    return res.status(200).send({
+      success: true,
+      message: "Login successful.",
+      details: { token: token },
+    });
   } catch (error) {
     return res.status(500).send({
       success: false,
@@ -129,36 +113,14 @@ module.exports.login = async (req, res) => {
 
 module.exports.logout = async (req, res) => {
   try {
-    const isProduction = process.env.NODE_ENV === "production";
-
     res.clearCookie("isUserLoggedIn", {
       httpOnly: false,
-      path: "/",
-      secure: isProduction ? true : false,
-
-      ...(isProduction && {
-        domain: "abhishekram404-blog-simple.herokuapp.com",
-        sameSite: "None",
-      }),
     });
     res.clearCookie("jwt", {
       httpOnly: true,
-      path: "/",
-      secure: isProduction ? true : false,
-      ...(isProduction && {
-        domain: "abhishekram404-blog-simple.herokuapp.com",
-        sameSite: "None",
-      }),
     });
     res.clearCookie("userId", {
       httpOnly: false,
-      path: "/",
-      secure: isProduction ? true : false,
-
-      ...(isProduction && {
-        domain: "abhishekram404-blog-simple.herokuapp.com",
-        sameSite: "None",
-      }),
     });
     return res.status(200).send({
       success: true,
@@ -168,32 +130,12 @@ module.exports.logout = async (req, res) => {
   } catch (error) {
     res.clearCookie("isUserLoggedIn", {
       httpOnly: false,
-      path: "/",
-      secure: isProduction ? true : false,
-
-      ...(isProduction && {
-        domain: "abhishekram404-blog-simple.herokuapp.com",
-        sameSite: "None",
-      }),
     });
     res.clearCookie("userId", {
       httpOnly: false,
-      path: "/",
-      secure: isProduction ? true : false,
-
-      ...(isProduction && {
-        domain: "abhishekram404-blog-simple.herokuapp.com",
-        sameSite: "None",
-      }),
     });
     res.clearCookie("jwt", {
       httpOnly: true,
-      path: "/",
-      secure: isProduction ? true : false,
-      ...(isProduction && {
-        domain: "abhishekram404-blog-simple.herokuapp.com",
-        sameSite: "None",
-      }),
     });
     return res.status(500).send({
       success: false,
