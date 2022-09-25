@@ -85,17 +85,24 @@ module.exports.login = async (req, res) => {
       });
     }
     const token = await foundUser.generateToken(foundUser._id);
+    const domain = new URL(process.env.CLIENT_URI).hostname;
     res.cookie("jwt", token, {
       httpOnly: true,
       maxAge: 900000000,
+      domain,
+      secure: true,
     });
     res.cookie("userId", foundUser._id.toString(), {
       httpOnly: false,
       maxAge: 900000000,
+      domain,
+      secure: true,
     });
     res.cookie("isUserLoggedIn", 1, {
       httpOnly: false,
       maxAge: 900000000,
+      domain,
+      secure: true,
     });
     return res.status(200).send({
       success: true,
